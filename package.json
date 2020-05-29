@@ -1,0 +1,60 @@
+{
+  "name": "svelte-copyright",
+  "description": "A Svelte component to format and display a copyright notice.",
+  "version": "0.1.0",
+  "author": {
+    "name": "himynameisdave",
+    "email": "d@velunny.com",
+    "url": "https://himynameisdave.com"
+  },
+  "svelte": "src/index.js",
+  "module": "lib/index.mjs",
+  "main": "lib/index.js",
+  "files": [
+    "src",
+    "lib"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "test": "jest src",
+    "release": "np --no-yarn"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.1",
+    "@babel/preset-env": "^7.10.1",
+    "@rollup/plugin-node-resolve": "^8.0.0",
+    "@testing-library/jest-dom": "^5.9.0",
+    "@testing-library/svelte": "^3.0.0",
+    "babel-jest": "^26.0.1",
+    "husky": "^4.2.5",
+    "jest": "^26.0.1",
+    "np": "^6.2.3",
+    "rollup": "^2.11.2",
+    "rollup-plugin-svelte": "^5.2.2",
+    "svelte": "^3.23.0",
+    "svelte-jester": "^1.0.6"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm test"
+    }
+  },
+  "keywords": [
+    "svelte",
+    "svelte-component",
+    "copyright",
+    "ui-component",
+    "svelte-copyright"
+  ],
+  "engines": {
+    "node": ">= 10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/himynameisdave/svelte-copyright.git"
+  },
+  "homepage": "https://github.com/himynameisdave/svelte-copyright",
+  "license": "MIT",
+  "sideEffects": false,
+  "private": false
+}
