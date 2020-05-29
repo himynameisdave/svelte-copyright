@@ -3,7 +3,7 @@
   <p style="font-style: italic;">© A Svelte component to format and display a copyright notice.</p>
   <div>
     <a href='https://travis-ci.com/github/himynameisdave/svelte-copyright'>
-        <img src="https://travis-ci.com/himynameisdave/svelte-copyright.svg?branch=master" alt="Travis Badge" />
+      <img src="https://travis-ci.com/himynameisdave/svelte-copyright.svg?token=NSWKYfhiSswtVimc1js9&branch=master&status=passed" alt="Travis Badge" />
     </a>
     <a href="https://packagephobia.now.sh/result?p=svelte-copyright">
         <img src="https://packagephobia.now.sh/badge?p=svelte-copyright" alt="Install size" />
