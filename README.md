@@ -18,7 +18,7 @@
 
 A [Svelte](https://svelte.dev/) component to format and display a copyright notice.
 
-<!-- [**Try me on CodeSandbox!**](https://codesandbox.io/s/svelte-flex-5s45y) -->
+[**Try me on CodeSandbox!**](https://codesandbox.io/s/svelte-copyright-x0ibp)
 
 ### Installation
 
