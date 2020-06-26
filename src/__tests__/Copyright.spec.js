@@ -2,6 +2,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { render } from '@testing-library/svelte';
 import Copyright from './Copyright.spec.svelte';
 
+
 // Get around some of the stupidity of this testing library
 function renderCopyright(props = {}) {
   //  Fixed date so that tests don't fail next year.
@@ -38,6 +39,19 @@ describe('<Copyright />', () => {
   test('it positions the copyright for position="post"', () => {
     const container = renderCopyright({ position: 'post' });
     expect(container).toHaveTextContent('Dave Lunny © Copyright 2020');
+  });
+
+  test('it displays a date range when showRange=true', () => {
+    const container = renderCopyright({
+      date: new Date(1990, 0, 1),
+      showRange: true,
+    });
+    expect(container).toHaveTextContent('© Copyright 1990 - 2020 Dave Lunny');
+  });
+  
+  test('if showRange=true but no date is provided, just display current year', () => {
+    const container = renderCopyright({ showRange: true });
+    expect(container).toHaveTextContent('© Copyright 2020 Dave Lunny');
   });
 
   test('it spreads the rest of the props correctly', () => {

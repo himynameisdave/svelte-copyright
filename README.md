@@ -60,9 +60,10 @@ All props are optional (as they all have default values).
 
 **Prop** | **Possible Values** | **Default Value** | **Description**
 ---|---|---|---
-`date` | [RFC2822/ISO8601](https://tools.ietf.org/html/rfc2822#page-14) date string | `Date.now()` | Date for the copyright year.
+`date` | [RFC2822/ISO8601](https://tools.ietf.org/html/rfc2822#page-14) date string | `new Date()` | Date for the copyright year.
 `format` | `'numeric'` \| `'2-digit'` | `'numeric'` | Format for the copyright year.
 `position` | `'pre'` \| `'post'`  | `'pre'` | Position of the Copyright relative to the contents you provide.
+`showRange` | `true` \| `false`  | `false` | If true, displays a range from the `date` prop to the current year (ie: '2010 - 2020').
 
 **Additional Props**
 
