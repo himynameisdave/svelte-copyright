@@ -1,1 +1,3 @@
-src/__tests__/**
+*.spec.*
+.travis.yml
+jest.config.js
