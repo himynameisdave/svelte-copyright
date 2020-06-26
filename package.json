@@ -20,19 +20,22 @@
     "release": "np --no-yarn"
   },
   "devDependencies": {
-    "@babel/core": "^7.10.1",
-    "@babel/preset-env": "^7.10.1",
-    "@rollup/plugin-node-resolve": "^8.0.0",
-    "@testing-library/jest-dom": "^5.9.0",
+    "@babel/core": "^7.10.3",
+    "@babel/preset-env": "^7.10.3",
+    "@rollup/plugin-node-resolve": "^8.1.0",
+    "@testing-library/jest-dom": "^5.11.0",
     "@testing-library/svelte": "^3.0.0",
-    "babel-jest": "^26.0.1",
+    "babel-jest": "^26.1.0",
     "husky": "^4.2.5",
-    "jest": "^26.0.1",
-    "np": "^6.2.3",
-    "rollup": "^2.11.2",
-    "rollup-plugin-svelte": "^5.2.2",
-    "svelte": "^3.23.0",
+    "jest": "^26.1.0",
+    "np": "^6.2.4",
+    "rollup": "^2.18.0",
+    "rollup-plugin-svelte": "^5.2.3",
+    "svelte": "^3.23.2",
     "svelte-jester": "^1.0.6"
+  },
+  "peerDependencies": {
+    "svelte": "^3.0.0"
   },
   "husky": {
     "hooks": {
