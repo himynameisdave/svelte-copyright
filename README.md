@@ -2,8 +2,8 @@
   <h1>svelte-copyright</h1>
   <p style="font-style: italic;">© A Svelte component to format and display a copyright notice.</p>
   <div>
-    <a href='https://travis-ci.com/github/himynameisdave/svelte-copyright'>
-      <img src="https://travis-ci.com/himynameisdave/svelte-copyright.svg?token=NSWKYfhiSswtVimc1js9&branch=master&status=passed" alt="Travis Badge" />
+    <a href='https://github.com/himynameisdave/svelte-copyright/actions?query=workflow%3Atest+branch%3Amaster'>
+      <img src="https://github.com/himynameisdave/svelte-copyright/workflows/test/badge.svg" alt="GitHub Actions - Test Workflow Badge" />
     </a>
     <a href="https://packagephobia.now.sh/result?p=svelte-copyright">
         <img src="https://packagephobia.now.sh/badge?p=svelte-copyright" alt="Install size" />
