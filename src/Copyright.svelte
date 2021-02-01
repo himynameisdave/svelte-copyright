@@ -10,11 +10,11 @@
   export let position = POSITION.PRE;
   //  If a date range should be shown. If this is the case, the date of the initial year should be provided.
   export let showRange = false;
-  
+
   //  Get the formatDate function
   const formatDate = withFormatGetDate(format);
   const getDateRange = withGetDateRange(showRange);
-  
+
   let displayDate = getDateRange(date, formatDate);
 </script>
 

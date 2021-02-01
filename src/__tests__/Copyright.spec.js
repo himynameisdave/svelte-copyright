@@ -6,7 +6,7 @@ import Copyright from './Copyright.spec.svelte';
 // Get around some of the stupidity of this testing library
 function renderCopyright(props = {}) {
   //  Fixed date so that tests don't fail next year.
-  const fixedDate = new Date('2020-05-29');
+  const fixedDate = new Date('2021-05-29');
   const { container } = render(Copyright, {
     date: fixedDate,
     ...props,
@@ -20,25 +20,25 @@ describe('<Copyright />', () => {
     const container = renderCopyright({ date: new Date(1990, 0, 1) });
     expect(container).toHaveTextContent('© Copyright 1990 Dave Lunny');
   });
-  
+
   test('it formats the year for format="numeric"', () => {
     const container = renderCopyright({ format: 'numeric' });
-    expect(container).toHaveTextContent('© Copyright 2020 Dave Lunny');
+    expect(container).toHaveTextContent('© Copyright 2021 Dave Lunny');
   });
-  
+
   test('it formats the year for format="2-digit"', () => {
     const container = renderCopyright({ format: '2-digit' });
-    expect(container).toHaveTextContent('© Copyright ’20 Dave Lunny');
+    expect(container).toHaveTextContent('© Copyright ’21 Dave Lunny');
   });
-  
+
   test('it positions the copyright for position="pre"', () => {
     const container = renderCopyright({ position: 'pre' });
-    expect(container).toHaveTextContent('© Copyright 2020 Dave Lunny');
+    expect(container).toHaveTextContent('© Copyright 2021 Dave Lunny');
   });
-  
+
   test('it positions the copyright for position="post"', () => {
     const container = renderCopyright({ position: 'post' });
-    expect(container).toHaveTextContent('Dave Lunny © Copyright 2020');
+    expect(container).toHaveTextContent('Dave Lunny © Copyright 2021');
   });
 
   test('it displays a date range when showRange=true', () => {
@@ -46,12 +46,12 @@ describe('<Copyright />', () => {
       date: new Date(1990, 0, 1),
       showRange: true,
     });
-    expect(container).toHaveTextContent('© Copyright 1990 - 2020 Dave Lunny');
+    expect(container).toHaveTextContent('© Copyright 1990 - 2021 Dave Lunny');
   });
-  
+
   test('if showRange=true but no date is provided, just display current year', () => {
     const container = renderCopyright({ showRange: true });
-    expect(container).toHaveTextContent('© Copyright 2020 Dave Lunny');
+    expect(container).toHaveTextContent('© Copyright 2021 Dave Lunny');
   });
 
   test('it spreads the rest of the props correctly', () => {
