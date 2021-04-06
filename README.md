@@ -8,6 +8,7 @@
     <a href="https://packagephobia.now.sh/result?p=svelte-copyright">
         <img src="https://packagephobia.now.sh/badge?p=svelte-copyright" alt="Install size" />
     </a>
+<a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fhimynameisdave%2Fsvelte-copyright?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fhimynameisdave%2Fsvelte-copyright.svg?type=shield"/></a>
     <a href="https://bundlephobia.com/result?p=svelte-copyright">
         <img src="https://img.shields.io/bundlephobia/min/svelte-copyright.svg" alt="Bundle size (minified)" />
     </a>
@@ -92,3 +93,7 @@ This was inspired by [`react-copyright`](https://github.com/jasonbellamy/react-c
 ---
 
 _✌️ Built by [Dave Lunny](http://himynameisdave.com)._
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fhimynameisdave%2Fsvelte-copyright.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fhimynameisdave%2Fsvelte-copyright?ref=badge_large)
