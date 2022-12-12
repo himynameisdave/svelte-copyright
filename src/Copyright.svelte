@@ -1,9 +1,9 @@
 <script>
   import { FORMAT, POSITION } from './constants';
-  import { withFormatGetDate, withGetDateRange } from './utils';
+  import { getDisplayDate, today } from './utils';
 
   //  The date year to be displayed (default: today)
-  export let date = new Date();
+  export let date = today();
   //  Date format ('numeric' | '2-digit')
   export let format = FORMAT.NUMERIC;
   //  Position of the copyright + date message relative to component "children" slot.
@@ -12,10 +12,11 @@
   export let showRange = false;
 
   //  Get the formatDate function
-  const formatDate = withFormatGetDate(format);
-  const getDateRange = withGetDateRange(showRange);
-
-  let displayDate = getDateRange(date, formatDate);
+  let displayDate = getDisplayDate({
+    showRange,
+    format,
+    date,
+  });
 </script>
 
 <span {...$$restProps}>

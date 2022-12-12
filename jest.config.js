@@ -6,6 +6,7 @@ module.exports = {
     "^.+\\.js$": "babel-jest",
     "^.+\\.svelte$": "svelte-jester"
   },
+  testEnvironment: "jsdom",
   moduleFileExtensions: [
     'js',
     'svelte'

@@ -10,34 +10,53 @@ export function toYear(date = today()) {
   return date.getFullYear().toString();
 }
 
-//  HOF which is injected with the format and returns the date formatter function.
-export function withFormatGetDate(format = FORMAT.NUMERIC) {
-  return function formatDate(date = today()) {
-    if (format === FORMAT.NUMERIC) {
-      return toYear(date);
-    }
-    if (format === FORMAT.TWO_DIGIT) {
-      return `’${toYear(date).slice(-2)}`;
-    }
+/**
+ * Formats the date, just for you!
+ *
+ * @param {Date} date - Date to format
+ * @param {'numeric' | '2-digit'} format - Format for the date.
+ */
+export function formatDate(date = today(), format = FORMAT.NUMERIC) {
+  if (format === FORMAT.NUMERIC) {
+    return toYear(date);
+  }
+  if (format === FORMAT.TWO_DIGIT) {
+    return `’${toYear(date).slice(-2)}`;
   }
 }
 
-//  A default for the getDateRange formatter.
-function defaultFormatDate(date) {
-  return date;
+/**
+ * Returns the "range string", unless the dates are the same.
+ *
+ * @param {string} date1 - First date (formatted to a string)
+ * @param {string} date2 - Second date (formatted to a string).
+ */
+export function getRange(date1, date2) {
+  //  Don't show a range if years are the same, as that would be dumb.
+  if (date1 === date2) {
+    return date1;
+  }
+  return `${date1} - ${date2}`;
 }
 
-//  HOF which is injected with the showRange and returns a getDateRange function.
-export function withGetDateRange(showRange = false) {
-  return function getDateRange(date = today(), formatDate = defaultFormatDate) {
-    const formattedToday = formatDate(today());
-    const formattedDate = formatDate(date);
-    if (showRange && formattedToday !== formattedDate) { // Make sure that if it's a range, the two years aren't the same.
-      return [
-        formattedDate,
-        formattedToday
-      ].join(' - ');
-    }
-    return formattedDate;
+/**
+ * Returns the displayed date for the component.
+ *
+ * @param {boolean} options.showRange - If a date range should be displayed.
+ * @param {Date} options.date - Copyright year to be used. If showRange is true, this is the start year of the range.
+ * @param {'numeric' | '2-digit'} options.format - Date format to be used.
+ */
+export function getDisplayDate({
+  showRange = false,
+  date = today(),
+  format = FORMAT.NUMERIC,
+}) {
+  const formatted = formatDate(date, format);
+  //  Early return if we don't show the range
+  if (!showRange) {
+    return formatted;
   }
+  //  Get today's year, formatted correctly.
+  const formattedToday = formatDate(today(), format);
+  return getRange(formatted, formattedToday);
 }

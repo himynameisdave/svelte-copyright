@@ -1,9 +1,9 @@
 import * as dateUtils from '../date';
 import * as constants from '../../constants';
 
-
 describe('utils/date', () => {
   const mockDate = new Date('1990-08-08');
+  const currentYear = dateUtils.today().getFullYear();
 
   describe('toYear', () => {
     it('returns the year value for a given date', () => {
@@ -12,36 +12,77 @@ describe('utils/date', () => {
     });
   });
 
-  describe('withFormatGetDate', () => {
+  describe('formatDate', () => {
     it('handles formatting a "numeric" year', () => {
-      const formatDate = dateUtils.withFormatGetDate(constants.FORMAT.NUMERIC);
-      const actual = formatDate(mockDate);
+      const actual = dateUtils.formatDate(mockDate, constants.FORMAT.NUMERIC);
       expect(actual).toBe('1990');
     });
+
     it('handles formatting a "2-digit" year', () => {
-      const formatDate = dateUtils.withFormatGetDate(constants.FORMAT.TWO_DIGIT);
-      const actual = formatDate(mockDate);
+      const actual = dateUtils.formatDate(mockDate, constants.FORMAT.TWO_DIGIT);
       expect(actual).toBe('’90');
+    });
+
+    it('does nothing if invalid format is passed', () => {
+      const actual = dateUtils.formatDate(mockDate, 'haha wrong!');
+      expect(actual).toBeUndefined();
     });
   });
 
-  describe('withGetDateRange', () => {
-    it('it will just return the year when showRange is false', () => {
-      const getDateRange = dateUtils.withGetDateRange(false);
-      const actual = getDateRange(mockDate, dateUtils.toYear);
-      expect(actual).toBe('1990');
+  describe('getRange', () => {
+    it('returns the first date if it is the same as second', () => {
+      const year = dateUtils.toYear(mockDate);
+      const actual = dateUtils.getRange(year, year);
+      expect(actual).toBe(year);
     });
-    //  TODO: this test will break in 2022
-    it('it will return the date range when showRange is true', () => {
-      const getDateRange = dateUtils.withGetDateRange(true);
-      const actual = getDateRange(mockDate, dateUtils.toYear);
-      expect(actual).toBe('1990 - 2021');
+
+    it('returns the range string if different years', () => {
+      const year1 = dateUtils.toYear(mockDate);
+      const year2 = dateUtils.toYear(dateUtils.today());
+      const actual = dateUtils.getRange(year1, year2);
+      expect(actual).toBe(`${year1} - ${year2}`);
     });
-    //  TODO: this test will break in 2022
-    it('it will return the year when showRange is true, but the given year is the current year', () => {
-      const getDateRange = dateUtils.withGetDateRange(true);
-      const actual = getDateRange(undefined, dateUtils.toYear);
-      expect(actual).toBe('2021');
+  });
+
+  describe('getDisplayDate', () => {
+    describe('when showRange is true', () => {
+      it('handles formatting a "numeric" year', () => {
+        const actual = dateUtils.getDisplayDate({
+          showRange: true,
+          format: constants.FORMAT.NUMERIC,
+          date: mockDate,
+        });
+        expect(actual).toBe(`1990 - ${currentYear}`);
+      });
+
+      it('handles formatting a "2-digit" year', () => {
+        const actual = dateUtils.getDisplayDate({
+          showRange: true,
+          format: constants.FORMAT.TWO_DIGIT,
+          date: mockDate,
+        });
+        expect(actual).toBe(`’90 - ’${currentYear.toString().slice(2)}`);
+      });
+    });
+
+    describe('when showRange is false', () => {
+      it('handles formatting a "numeric" year', () => {
+        const actual = dateUtils.getDisplayDate({
+          showRange: false,
+          format: constants.FORMAT.NUMERIC,
+          date: mockDate,
+        });
+        expect(actual).toBe('1990');
+      });
+
+      it('handles formatting a "2-digit" year', () => {
+        const actual = dateUtils.getDisplayDate({
+          showRange: false,
+          format: constants.FORMAT.TWO_DIGIT,
+          date: mockDate,
+        });
+        expect(actual).toBe('’90');
+      });
     });
   });
 });

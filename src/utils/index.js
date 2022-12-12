@@ -1,1 +1,1 @@
-export { withFormatGetDate, withGetDateRange } from './date';
+export { getDisplayDate, today } from './date';
