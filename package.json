@@ -40,7 +40,8 @@
     "node": ">= 16"
   },
   "lint-staged": {
-    "*.ts,*.svelte": "eslint ./ --fix --quiet"
+    "*.ts": "eslint ./ --fix --quiet",
+    "*.svelte": "eslint ./ --fix --quiet"
   },
   "peerDependencies": {
     "svelte": "^4.0.0"
