@@ -22,7 +22,8 @@
     "lint": "eslint . --ext .js,.ts,.svelte",
     "lint:fix": "eslint . --ext .js,.ts,.svelte --fix",
     "test:integration": "playwright test",
-    "test:unit": "vitest",
+    "test:unit": "vitest --run",
+    "test:unit:watch": "vitest",
     "release": "npm run package && np --no-yarn"
   },
   "exports": {
