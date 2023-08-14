@@ -50,7 +50,7 @@ This will output HTML which looks something like this:
 
 ```html
 <footer>
-  <span>© Copyright 2020 Dave Lunny</span>
+  <span>© Copyright 2023 Dave Lunny</span>
 </footer>
 ```
 

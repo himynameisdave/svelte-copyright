@@ -1,12 +1,12 @@
-import { FORMAT } from '../constants';
+import { FORMAT } from '../constants.js';
 
 //  Returns new Date() - for default/fallback values.
-export function today() {
+export function today(): Date {
   return new Date();
 }
 
 //  Gets the year string from a date.
-export function toYear(date = today()) {
+export function toYear(date = today()): string {
   return date.getFullYear().toString();
 }
 
@@ -16,7 +16,7 @@ export function toYear(date = today()) {
  * @param {Date} date - Date to format
  * @param {'numeric' | '2-digit'} format - Format for the date.
  */
-export function formatDate(date = today(), format = FORMAT.NUMERIC) {
+export function formatDate(date = today(), format = FORMAT.NUMERIC): string {
   if (format === FORMAT.NUMERIC) {
     return toYear(date);
   }
@@ -31,13 +31,19 @@ export function formatDate(date = today(), format = FORMAT.NUMERIC) {
  * @param {string} date1 - First date (formatted to a string)
  * @param {string} date2 - Second date (formatted to a string).
  */
-export function getRange(date1, date2) {
+export function getRange(date1: string, date2: string): string {
   //  Don't show a range if years are the same, as that would be dumb.
   if (date1 === date2) {
     return date1;
   }
   return `${date1} - ${date2}`;
 }
+
+type GetDisplayDateProps = {
+  showRange?: boolean;
+  date?: Date;
+  format?: string;
+};
 
 /**
  * Returns the displayed date for the component.
@@ -50,7 +56,7 @@ export function getDisplayDate({
   showRange = false,
   date = today(),
   format = FORMAT.NUMERIC,
-}) {
+}: GetDisplayDateProps): string {
   const formatted = formatDate(date, format);
   //  Early return if we don't show the range
   if (!showRange) {

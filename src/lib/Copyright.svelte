@@ -1,6 +1,6 @@
-<script>
-  import { FORMAT, POSITION } from './constants';
-  import { getDisplayDate, today } from './utils';
+<script lang="ts">
+  import { FORMAT, POSITION } from './constants.js';
+  import { getDisplayDate, today } from './utils/index.js';
 
   //  The date year to be displayed (default: today)
   export let date = today();
@@ -12,7 +12,7 @@
   export let showRange = false;
 
   //  Get the formatDate function
-  let displayDate = getDisplayDate({
+  const displayDate = getDisplayDate({
     showRange,
     format,
     date,
@@ -23,7 +23,7 @@
   {#if position === POSITION.PRE}
     &#169; Copyright {displayDate}
   {/if}
-  <slot></slot>
+  <slot />
   {#if position === POSITION.POST}
     &#169; Copyright {displayDate}
   {/if}
