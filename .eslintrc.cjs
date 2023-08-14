@@ -27,5 +27,8 @@ module.exports = {
         parser: '@typescript-eslint/parser'
       }
     }
-  ]
+  ],
+  rules: {
+    '@typescript-eslint/consistent-indexed-object-style': ["error", "record"]
+  },
 };
