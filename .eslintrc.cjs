@@ -28,7 +28,5 @@ module.exports = {
       }
     }
   ],
-  rules: {
-    '@typescript-eslint/consistent-indexed-object-style': ["error", "record"]
-  },
+  rules: {},
 };
