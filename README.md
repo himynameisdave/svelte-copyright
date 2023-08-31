@@ -2,7 +2,7 @@
   <h1>svelte-copyright</h1>
   <p style="font-style: italic;">© A Svelte component to format and display a copyright notice.</p>
   <div>
-    <a href='https://github.com/himynameisdave/svelte-copyright/actions?query=workflow%3Atest+branch%3Amaster'>
+    <a href='https://github.com/himynameisdave/svelte-copyright/actions?query=workflow%3Atest+branch%3Amain'>
       <img src="https://github.com/himynameisdave/svelte-copyright/workflows/test/badge.svg" alt="GitHub Actions - Test Workflow Badge" />
     </a>
     <a href="https://packagephobia.now.sh/result?p=svelte-copyright">
@@ -25,10 +25,12 @@ A [Svelte](https://svelte.dev/) component to format and display a copyright noti
 This package is available on NPM, and you can install it with `npm` or `yarn`:
 
 ```
-npm install svelte-copyright
+npm install -D svelte-copyright
 
-yarn add svelte-copyright
+yarn add -D svelte-copyright
 ```
+
+Note that it only needs to be installed as a devDependency, like `svelte` itself.
 
 ### Usage
 

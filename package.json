@@ -65,5 +65,25 @@
     "vite": "^4.4.9",
     "vitest": "^0.34.3"
   },
+  "keywords": [
+    "svelte",
+    "component",
+    "copyright",
+    "notice",
+    "footer",
+    "license",
+    "attribution",
+    "website",
+    "web-design",
+    "frontend",
+    "legal",
+    "year",
+    "svelte-components",
+    "license-display",
+    "attribution-tool",
+    "web-component",
+    "copy-protection",
+    "legal-footer"
+  ],
   "private": false
 }
