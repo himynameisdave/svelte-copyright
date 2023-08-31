@@ -1,3 +1,4 @@
+import type { Format } from '$lib/types.js';
 import { FORMAT } from '../constants.js';
 
 //  Returns new Date() - for default/fallback values.
@@ -16,13 +17,11 @@ export function toYear(date = today()): string {
  * @param {Date} date - Date to format
  * @param {'numeric' | '2-digit'} format - Format for the date.
  */
-export function formatDate(date = today(), format = FORMAT.NUMERIC): string {
-  if (format === FORMAT.NUMERIC) {
-    return toYear(date);
-  }
+export function formatDate(date = today(), format: Format = FORMAT.NUMERIC): string {
   if (format === FORMAT.TWO_DIGIT) {
     return `’${toYear(date).slice(-2)}`;
   }
+  return toYear(date);
 }
 
 /**
@@ -42,7 +41,7 @@ export function getRange(date1: string, date2: string): string {
 type GetDisplayDateProps = {
   showRange?: boolean;
   date?: Date;
-  format?: string;
+  format?: Format;
 };
 
 /**
@@ -64,5 +63,8 @@ export function getDisplayDate({
   }
   //  Get today's year, formatted correctly.
   const formattedToday = formatDate(today(), format);
+  if (!formattedToday || formattedToday === 'NaN') {
+    return today().toLocaleDateString();
+  }
   return getRange(formatted, formattedToday);
 }
