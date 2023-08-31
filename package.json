@@ -8,6 +8,7 @@
     "url": "https://himynameisdave.com"
   },
   "type": "module",
+  "main": "./dist/index.js",
   "svelte": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
@@ -29,7 +30,8 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "svelte": "./dist/index.js"
+      "svelte": "./dist/index.js",
+      "default": "./dist/index.js"
     }
   },
   "files": [
