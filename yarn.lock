@@ -4435,9 +4435,9 @@ prr@~1.0.1:
   integrity sha512-yPw4Sng1gWghHQWj0B3ZggWUm4qVbPwPFcRG8KyxiU7J2OHFSoEHKS+EZ3fv5l1t9CyCiop6l/ZYeWbrgoQejw==
 
 publint@^0.2.5:
-  version "0.2.5"
-  resolved "https://registry.yarnpkg.com/publint/-/publint-0.2.5.tgz#2836759ccff76ca14d6b2f391a41bbaced31930e"
-  integrity sha512-eoQiP0WXkxkpth1fMLoS1I/6BQoxKNZxTAAnFjPgURFrJulC5D5Uifk49a9kfNCYmcza9E/ZkbFhQQdjkmKAbg==
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/publint/-/publint-0.2.7.tgz#7b57ec5ff117c329f56dfe98d328e2bd860e12bf"
+  integrity sha512-tLU4ee3110BxWfAmCZggJmCUnYWgPTr0QLnx08sqpLYa8JHRiOudd+CgzdpfU5x5eOaW2WMkpmOrFshRFYK7Mw==
   dependencies:
     npm-packlist "^5.1.3"
     picocolors "^1.0.0"
