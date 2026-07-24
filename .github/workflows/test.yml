@@ -11,15 +11,62 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [18, 20, 21]
+        node-version: [20, 22, 24]
     steps:
       - name: checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v7
       - name: setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v7
         with:
           node-version: ${{ matrix.node-version }}
+      - name: setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
       - name: Install
-        run: yarn install
+        run: bun install --frozen-lockfile
+      - name: Install Playwright browsers
+        run: bunx playwright install --with-deps chromium
+      - name: Lint
+        run: bun run lint
+      - name: Typecheck
+        run: bun run check
       - name: Test
-        run: yarn test
+        run: bun run test
+      - name: Package
+        run: bun run package
+
+  consumers:
+    name: "Consumable from ${{ matrix.package-manager }}"
+    runs-on: ubuntu-latest
+    strategy:
+      # One consumer failing shouldn't hide the state of the others.
+      fail-fast: false
+      matrix:
+        package-manager: [npm, yarn, pnpm]
+    steps:
+      - name: checkout
+        uses: actions/checkout@v7
+      - name: setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - name: setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: setup ${{ matrix.package-manager }}
+        # Runner images ship npm and yarn but not pnpm, and that set isn't guaranteed.
+        run: |
+          if ! command -v ${{ matrix.package-manager }} > /dev/null; then
+            npm install --global ${{ matrix.package-manager }}
+          fi
+          # Printed from a neutral directory: corepack shims refuse to run inside a
+          # project whose package.json declares a different packageManager.
+          cd "$RUNNER_TEMP" && ${{ matrix.package-manager }} --version
+      - name: Build the package
+        run: |
+          bun install --frozen-lockfile
+          bun run package
+      - name: Pack, install, and build a consumer app
+        run: bun run verify:consumer ${{ matrix.package-manager }}

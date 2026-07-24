@@ -1,30 +1,48 @@
+<script lang="ts" module>
+  import type { Snippet } from 'svelte';
+  import type { HTMLAttributes } from 'svelte/elements';
+  import type { Format, Position } from './types.js';
+
+  export type CopyrightProps = HTMLAttributes<HTMLSpanElement> & {
+    //  The date year to be displayed (default: today)
+    date?: Date;
+    //  Date format ('numeric' | '2-digit')
+    format?: Format;
+    //  Position of the copyright + date message relative to the component's children.
+    position?: Position;
+    //  If a date range should be shown. If this is the case, the date of the initial year should be provided.
+    showRange?: boolean;
+    //  The content displayed alongside the copyright notice.
+    children?: Snippet;
+  };
+</script>
+
 <script lang="ts">
   import { FORMAT, POSITION } from './constants.js';
   import { getDisplayDate, today } from './utils/index.js';
-  import type { Format, Position } from './types.js';
 
-  //  The date year to be displayed (default: today)
-  export let date: Date = today();
-  //  Date format ('numeric' | '2-digit')
-  export let format: Format = FORMAT.NUMERIC;
-  //  Position of the copyright + date message relative to component "children" slot.
-  export let position: Position = POSITION.PRE;
-  //  If a date range should be shown. If this is the case, the date of the initial year should be provided.
-  export let showRange = false;
+  let {
+    date = today(),
+    format = FORMAT.NUMERIC,
+    position = POSITION.PRE,
+    showRange = false,
+    children,
+    ...rest
+  }: CopyrightProps = $props();
 
-  //  Get the formatDate function
-  const displayDate = getDisplayDate({
+  //  Derived so that the notice updates if any of the props change.
+  const displayDate = $derived(getDisplayDate({
     showRange,
     format,
     date,
-  });
+  }));
 </script>
 
-<span {...$$restProps}>
+<span {...rest}>
   {#if position === POSITION.PRE}
     &#169; Copyright {displayDate}
   {/if}
-  <slot />
+  {@render children?.()}
   {#if position === POSITION.POST}
     &#169; Copyright {displayDate}
   {/if}
