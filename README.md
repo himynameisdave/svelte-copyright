@@ -22,12 +22,16 @@ Requires **Svelte 5**. For Svelte 4, use `svelte-copyright@2`.
 
 ### Installation
 
-This package is available on NPM, and you can install it with `npm` or `yarn`:
+This package is available on NPM. Install it with whichever package manager you use:
 
 ```
 npm install -D svelte-copyright
 
 yarn add -D svelte-copyright
+
+pnpm add -D svelte-copyright
+
+bun add -d svelte-copyright
 ```
 
 Note that it only needs to be installed as a devDependency, like `svelte` itself.
@@ -114,6 +118,22 @@ v3 requires Svelte 5. The props are unchanged, so most usage needs no edits.
 ### Contributing
 
 Feel free to [file an issue](https://github.com/himynameisdave/svelte-copyright/issues/new) or open a pull request. Ensure that you add tests for any new functionality.
+
+#### Development
+
+This repo uses [Bun](https://bun.com/) for package management. Installing it is the only prerequisite — everything else comes from `bun install`.
+
+```
+bun install         # install dependencies
+bun run dev         # run the demo app at localhost:5173
+bun run test        # playwright + vitest
+bun run test:unit   # just the unit/component tests
+bun run lint        # eslint
+bun run check       # svelte-check
+bun run package     # build dist/ and validate it with publint
+```
+
+Bun is a development detail only. The package is published to NPM as a normal tarball, and consumers can install it with any package manager. CI proves this on every run: `scripts/verify-consumer.mjs` packs the tarball, installs it into a throwaway app with `npm`, `yarn` and `pnpm` in turn, and bundles that app to confirm the component resolves and compiles.
 
 ### Inspiration
 

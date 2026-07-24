@@ -19,16 +19,43 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: npm
+      - name: setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
       - name: Install
-        run: npm ci
+        run: bun install --frozen-lockfile
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
+        run: bunx playwright install --with-deps chromium
       - name: Lint
-        run: npm run lint
+        run: bun run lint
       - name: Typecheck
-        run: npm run check
+        run: bun run check
       - name: Test
-        run: npm test
+        run: bun run test
       - name: Package
-        run: npm run package
+        run: bun run package
+
+  consumers:
+    name: "Consumable from ${{ matrix.package-manager }}"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package-manager: [npm, yarn, pnpm]
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Build the package
+        run: |
+          bun install --frozen-lockfile
+          bun run package
+      - name: Pack, install, and build a consumer app
+        run: node ./scripts/verify-consumer.mjs ${{ matrix.package-manager }}
