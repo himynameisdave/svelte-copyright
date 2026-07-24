@@ -16,8 +16,8 @@
  *
  * Usage: node ./scripts/verify-consumer.mjs [npm|yarn|pnpm|bun]
  */
-import { execFileSync } from 'node:child_process';
-import fs from 'node:fs';
+import { spawn } from 'node:child_process';
+import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -25,14 +25,30 @@ import { fileURLToPath } from 'node:url';
 const packageManager = process.argv[2] ?? 'npm';
 const rootDirectory = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
+//  Promise wrapper around `spawn` rather than `promisify(execFile)`, since execFile
+//  buffers the output instead of streaming it, and installs can blow past maxBuffer.
+//  Rejects on a non-zero exit so failures still surface as a thrown error in CI.
+const execFileAsync = (command, arguments_, options) => new Promise((resolve, reject) => {
+  const child = spawn(command, arguments_, { stdio: 'inherit', ...options });
+
+  child.on('error', reject);
+  child.on('close', (code) => {
+    if (code === 0) {
+      resolve();
+      return;
+    }
+
+    reject(new Error(`\`${command} ${arguments_.join(' ')}\` exited with code ${code}.`));
+  });
+});
+
 //  Pack with npm rather than bun, since npm is what actually publishes to the registry.
-function packTarball(destination) {
-  execFileSync('npm', ['pack', '--pack-destination', destination], {
+async function packTarball(destination) {
+  await execFileAsync('npm', ['pack', '--pack-destination', destination], {
     cwd: rootDirectory,
-    stdio: 'inherit',
   });
 
-  const tarball = fs.readdirSync(destination)
+  const tarball = (await fs.readdir(destination))
     .find((file) => file.startsWith('svelte-copyright-') && file.endsWith('.tgz'));
 
   if (!tarball) {
@@ -53,16 +69,16 @@ if (!addCommand) {
   throw new Error(`Unsupported package manager: ${packageManager}`);
 }
 
-const workDirectory = fs.mkdtempSync(path.join(os.tmpdir(), `svelte-copyright-${packageManager}-`));
-const tarball = packTarball(workDirectory);
+const workDirectory = await fs.mkdtemp(path.join(os.tmpdir(), `svelte-copyright-${packageManager}-`));
+const tarball = await packTarball(workDirectory);
 
-const files = {
-  'package.json': JSON.stringify({
+const files = new Map([
+  ['package.json', JSON.stringify({
     name: 'consumer-check',
     private: true,
     type: 'module',
-  }, undefined, 2),
-  'vite.config.js': [
+  }, undefined, 2)],
+  ['vite.config.js', [
     "import { svelte } from '@sveltejs/vite-plugin-svelte';",
     '',
     'export default {',
@@ -70,9 +86,9 @@ const files = {
     "  build: { lib: { entry: 'src/main.js', formats: ['es'], fileName: 'out' } },",
     '};',
     '',
-  ].join('\n'),
-  'svelte.config.js': 'export default {};\n',
-  'src/App.svelte': [
+  ].join('\n')],
+  ['svelte.config.js', 'export default {};\n'],
+  ['src/App.svelte', [
     '<script>',
     "  import Copyright, { FORMAT } from 'svelte-copyright';",
     '</script>',
@@ -81,32 +97,33 @@ const files = {
     '  Mindless Corp.',
     '</Copyright>',
     '',
-  ].join('\n'),
-  'src/main.js': "export { default } from './App.svelte';\n",
-};
+  ].join('\n')],
+  ['src/main.js', "export { default } from './App.svelte';\n"],
+]);
 
-for (const [filePath, contents] of Object.entries(files)) {
+//  `Map.forEach` cannot await its callback, so spread and map instead: every write
+//  lands on disk before the install below goes looking for the generated package.json.
+await Promise.all([...files].map(async ([filePath, contents]) => {
   const destination = path.join(workDirectory, filePath);
-  fs.mkdirSync(path.dirname(destination), { recursive: true });
-  fs.writeFileSync(destination, contents);
-}
+  await fs.mkdir(path.dirname(destination), { recursive: true });
+  await fs.writeFile(destination, contents);
+}));
 
-const run = (command, arguments_) => execFileSync(command, arguments_, {
+const run = (command, arguments_) => execFileAsync(command, arguments_, {
   cwd: workDirectory,
-  stdio: 'inherit',
 });
 
 console.log(`\n→ ${packageManager}: installing ${path.basename(tarball)} in ${workDirectory}`);
 const [command, arguments_] = addCommand(tarball);
-run(command, arguments_);
+await run(command, arguments_);
 
 console.log(`\n→ ${packageManager}: bundling a consumer app`);
-run('npx', ['vite', 'build']);
+await run('npx', ['vite', 'build']);
 
-const bundle = fs.readFileSync(path.join(workDirectory, 'dist/out.js'), 'utf8');
+const bundle = await fs.readFile(path.join(workDirectory, 'dist/out.js'), 'utf8');
 if (!bundle.includes('Copyright')) {
   throw new Error('Bundled output does not contain the copyright notice.');
 }
 
 console.log(`\n✓ ${packageManager}: resolved, bundled, and rendered the component\n`);
-fs.rmSync(workDirectory, { recursive: true, force: true });
+await fs.rm(workDirectory, { recursive: true, force: true });
