@@ -25,6 +25,13 @@ module.exports = {
       parser: 'svelte-eslint-parser',
       parserOptions: {
         parser: '@typescript-eslint/parser'
+      },
+      rules: {
+        //  Runes declarations have to use `let`, even when never reassigned.
+        'prefer-const': 'off',
+        //  Compiler warnings are already surfaced (with svelte.config.js's
+        //  warningFilter applied) by `npm run check`.
+        'svelte/valid-compile': ['error', { ignoreWarnings: true }],
       }
     }
   ],

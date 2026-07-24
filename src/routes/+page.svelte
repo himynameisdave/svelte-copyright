@@ -73,7 +73,6 @@
   <Copyright
     date={new Date('1991-08-10')}
     format="2-digit"
-    show
   >
     Mindless Corp.
   </Copyright>
