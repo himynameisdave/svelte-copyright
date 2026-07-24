@@ -25,7 +25,8 @@
     "test:integration": "playwright test",
     "test:unit": "vitest --run",
     "test:unit:watch": "vitest",
-    "release": "bun run package && np"
+    "release": "bun run package && np",
+    "verify:consumer": "node ./scripts/verify-consumer.mjs"
   },
   "exports": {
     ".": {

@@ -131,9 +131,14 @@ bun run test:unit   # just the unit/component tests
 bun run lint        # eslint
 bun run check       # svelte-check
 bun run package     # build dist/ and validate it with publint
+
+bun run verify:consumer       # check an npm consumer can install the tarball
+bun run verify:consumer pnpm  # ...or yarn, pnpm, bun
 ```
 
-Bun is a development detail only. The package is published to NPM as a normal tarball, and consumers can install it with any package manager. CI proves this on every run: `scripts/verify-consumer.mjs` packs the tarball, installs it into a throwaway app with `npm`, `yarn` and `pnpm` in turn, and bundles that app to confirm the component resolves and compiles.
+Bun is a development detail only. The package is published to NPM as a normal tarball, and consumers can install it with any package manager.
+
+`verify:consumer` is what keeps that honest. It packs the tarball with `npm pack`, installs it into a throwaway Svelte app using the package manager you name, and bundles that app — so a broken `exports` map or a file missing from `files` fails loudly instead of reaching the registry. CI runs it for `npm`, `yarn` and `pnpm` on every push.
 
 ### Inspiration
 

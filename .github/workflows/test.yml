@@ -14,9 +14,9 @@ jobs:
         node-version: [20, 22, 24]
     steps:
       - name: checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: ${{ matrix.node-version }}
       - name: setup Bun
@@ -44,9 +44,9 @@ jobs:
         package-manager: [npm, yarn, pnpm]
     steps:
       - name: checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 22
       - name: setup Bun
@@ -58,4 +58,4 @@ jobs:
           bun install --frozen-lockfile
           bun run package
       - name: Pack, install, and build a consumer app
-        run: node ./scripts/verify-consumer.mjs ${{ matrix.package-manager }}
+        run: bun run verify:consumer ${{ matrix.package-manager }}

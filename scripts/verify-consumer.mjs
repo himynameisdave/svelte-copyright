@@ -1,7 +1,18 @@
 /**
- * Builds a throwaway Svelte app that installs the packed tarball with a given
- * package manager, then bundles it. Proves the published artifact is consumable
- * by people who aren't using Bun.
+ * Guards against publishing something only Bun users can install.
+ *
+ * This repo develops with Bun, but the package is published to NPM and has to
+ * work for everyone. This script packs the tarball with `npm pack`, installs it
+ * into a throwaway Svelte app using the requested package manager, and bundles
+ * that app — so a broken `exports` map, a missing file in `files`, or a bad
+ * `svelte` condition fails loudly instead of reaching the registry.
+ *
+ * Run by the `consumers` job in .github/workflows/test.yml, once per package
+ * manager, on every push.
+ *
+ * Locally:
+ *   bun run verify:consumer          # defaults to npm
+ *   bun run verify:consumer pnpm
  *
  * Usage: node ./scripts/verify-consumer.mjs [npm|yarn|pnpm|bun]
  */
