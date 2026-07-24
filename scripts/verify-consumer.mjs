@@ -4,7 +4,7 @@
  * This repo develops with Bun, but the package is published to NPM and has to
  * work for everyone. This script packs the tarball with `npm pack`, installs it
  * into a throwaway Svelte app using the requested package manager, and bundles
- * that app — so a broken `exports` map, a missing file in `files`, or a bad
+ * that app, so a broken `exports` map, a missing file in `files`, or a bad
  * `svelte` condition fails loudly instead of reaching the registry.
  *
  * Run by the `consumers` job in .github/workflows/test.yml, once per package

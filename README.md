@@ -71,7 +71,7 @@ All props are optional (as they all have default values).
 `position` | `'pre'` \| `'post'`  | `'pre'` | Position of the Copyright relative to the contents you provide.
 `showRange` | `true` \| `false`  | `false` | If true, displays a range from the `date` prop to the current year (ie: '2010 - 2020').
 
-All props are reactive — updating any of them re-renders the notice.
+All props are reactive. Updating any of them re-renders the notice.
 
 **Additional Props**
 
@@ -113,7 +113,7 @@ Types ship with the package. The props type is exported if you need it, along wi
 v3 requires Svelte 5. The props are unchanged, so most usage needs no edits.
 
 - Content is now a [snippet](https://svelte.dev/docs/svelte/snippet) rather than a slot. Passing children the normal way (`<Copyright>Dave Lunny</Copyright>`) works exactly as before.
-- The displayed date is now `$derived`. Previously it was computed once when the component initialised, so changing `date` after mount did nothing — now it updates.
+- The displayed date is now `$derived`. Previously it was computed once when the component initialised, so changing `date` after mount did nothing. Now it updates.
 
 ### Contributing
 
@@ -121,7 +121,7 @@ Feel free to [file an issue](https://github.com/himynameisdave/svelte-copyright/
 
 #### Development
 
-This repo uses [Bun](https://bun.com/) for package management. Installing it is the only prerequisite — everything else comes from `bun install`.
+This repo uses [Bun](https://bun.com/) for package management. Installing it is the only prerequisite. Everything else comes from `bun install`.
 
 ```
 bun install         # install dependencies
@@ -138,7 +138,7 @@ bun run verify:consumer pnpm  # ...or yarn, pnpm, bun
 
 Bun is a development detail only. The package is published to NPM as a normal tarball, and consumers can install it with any package manager.
 
-`verify:consumer` is what keeps that honest. It packs the tarball with `npm pack`, installs it into a throwaway Svelte app using the package manager you name, and bundles that app — so a broken `exports` map or a file missing from `files` fails loudly instead of reaching the registry. CI runs it for `npm`, `yarn` and `pnpm` on every push.
+`verify:consumer` is what keeps that honest. It packs the tarball with `npm pack`, installs it into a throwaway Svelte app using the package manager you name, and bundles that app, so a broken `exports` map or a file missing from `files` fails loudly instead of reaching the registry. CI runs it for `npm`, `yarn` and `pnpm` on every push.
 
 ### Inspiration
 
