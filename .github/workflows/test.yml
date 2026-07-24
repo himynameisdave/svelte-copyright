@@ -40,6 +40,8 @@ jobs:
     name: "Consumable from ${{ matrix.package-manager }}"
     runs-on: ubuntu-latest
     strategy:
+      # One consumer failing shouldn't hide the state of the others.
+      fail-fast: false
       matrix:
         package-manager: [npm, yarn, pnpm]
     steps:
@@ -53,6 +55,15 @@ jobs:
         uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
+      - name: setup ${{ matrix.package-manager }}
+        # Runner images ship npm and yarn but not pnpm, and that set isn't guaranteed.
+        run: |
+          if ! command -v ${{ matrix.package-manager }} > /dev/null; then
+            npm install --global ${{ matrix.package-manager }}
+          fi
+          # Printed from a neutral directory: corepack shims refuse to run inside a
+          # project whose package.json declares a different packageManager.
+          cd "$RUNNER_TEMP" && ${{ matrix.package-manager }} --version
       - name: Build the package
         run: |
           bun install --frozen-lockfile

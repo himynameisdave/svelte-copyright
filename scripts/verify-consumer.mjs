@@ -31,7 +31,15 @@ const rootDirectory = path.resolve(path.dirname(fileURLToPath(import.meta.url)),
 const execFileAsync = (command, arguments_, options) => new Promise((resolve, reject) => {
   const child = spawn(command, arguments_, { stdio: 'inherit', ...options });
 
-  child.on('error', reject);
+  //  A bare spawn ENOENT is a confusing way to learn the package manager isn't installed.
+  child.on('error', (error) => {
+    if (error.code === 'ENOENT') {
+      reject(new Error(`\`${command}\` is not on PATH. Install it, or pick a package manager that is.`));
+      return;
+    }
+
+    reject(error);
+  });
   child.on('close', (code) => {
     if (code === 0) {
       resolve();
